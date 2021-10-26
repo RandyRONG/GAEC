@@ -76,7 +76,7 @@ class SimpleGeneticAlgorithm():
         a=a/(length-1)
         for item in record_lists:
             cumm_prob_0 = cumm_prob
-            prob_ = math.exp(a*(record_lists.index(item)-1))
+            prob_ = math.exp(a*record_lists.index(item))
             cumm_prob += prob_
             decay_list.append([item[0],[cumm_prob_0,cumm_prob]])
         return decay_list,record_values_dict
