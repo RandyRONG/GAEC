@@ -1,29 +1,10 @@
 import Reporter
 import numpy as np
-
-# Modify the class name to match your student number.
-class r0817066:
-
-	def __init__(self):
-		self.reporter = Reporter.Reporter(self.__class__.__name__)
-
-	# The evolutionary algorithm's main loop
-	def optimize(self, filename):
-		# Read distance matrix from file.		
-		file = open(filename)
-		distanceMatrix = np.loadtxt(file, delimiter=",")
-		file.close()
-
-		# Your code here.
-
-		while( yourConvergenceTestsHere ):
-
-			import numpy as np
 import random
 import time
 import pandas as pd
 import math
-
+from operator import itemgetter, attrgetter
 
 class SimpleGeneticAlgorithm():
     def __init__(self,DMat,start_point):
@@ -67,7 +48,7 @@ class SimpleGeneticAlgorithm():
                 record_values_dict[key_] = value
             record_lists.append([individual,1/value])
         #print (record_lists)
-        record_lists.sort()
+        record_lists=sorted(record_lists,key=itemgetter(1,0))
         decay_list = []
         cumm_prob = 0
         length=len(record_lists)
