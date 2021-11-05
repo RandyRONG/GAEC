@@ -1,4 +1,4 @@
-import Reporter
+# import Reporter
 import numpy as np
 import random
 import time
@@ -227,7 +227,7 @@ class SimpleGeneticAlgorithm():
             population.extend(offsprings)
             population,record_values_dict,best_result = self.Elimination(population,record_values_dict)
             time_end=time.time()
-            if time_end-time_start >= 5*60:
+            if time_end-time_start >= 3*60:
                 print('time cost',time_end-time_start,'s')
                 print ('time is up!')
                 print (best_result)
