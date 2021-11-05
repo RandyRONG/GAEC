@@ -5,19 +5,25 @@ import pandas as pd
 
 
 class SimpleGeneticAlgorithm():
-    def __init__(self, DMat, start_point):
+    def __init__(self, DMat, start_point,
+        seed_num = 1000,
+        macro_alpha = 0.5,
+        micro_alpha = 0.2,
+        tournament_num = 10,
+        tournament_times = 1000
+    ):
         self.start_point = start_point
         self.item_num = len(DMat[0])
         self.left_parts = [i for i in range(self.item_num)]
         self.left_parts.remove(self.start_point)
         self.DMat = DMat
-        self.seed_num = 1000
+        self.seed_num = seed_num
         self.offspring_num = self.seed_num
-        self.macro_alpha = 0.5
-        self.micro_alpha = 0.2
+        self.macro_alpha = macro_alpha # Reverse
+        self.micro_alpha = micro_alpha #Reverses
         self.numIters = 1000
-        self.tournament_times = self.seed_num
-        self.tournament_num = 10
+        self.tournament_times = tournament_times
+        self.tournament_num = tournament_num
 
     def InitializeProcess(self):
         population = []
@@ -200,21 +206,28 @@ class SimpleGeneticAlgorithm():
 
     def Mutation(self, population):
         new_population = []
+        # For each individual, select if they will be in the new population
+        # with switched direction
+        # Probability of macro_alpha
         for individual in population:
             decision_prob = random.uniform(0, 1)
             if decision_prob >= self.macro_alpha:
                 continue
             new_population.append(individual[::-1])
+        # For each individual, each element has a chance of being swapped 
         for individual in population:
             new_individual = individual[:]
+            # Each element in the individual has a micro_alpha chance of being swapped
             for sub_ in new_individual:
                 decision_prob = random.uniform(0, 1)
                 if decision_prob >= self.micro_alpha:
                     continue
                 i = new_individual.index(sub_)
                 j = i
+                # Choose a different index than i
                 while j == i:
                     j = new_individual.index(random.choice(new_individual))
+                # Swap the indexes
                 new_individual[i], new_individual[j] = new_individual[j], new_individual[i]
             if new_individual == individual:
                 continue
@@ -258,7 +271,7 @@ class SimpleGeneticAlgorithm():
             if i in set_record_lists:
                 continue
             set_record_lists.append(i)
-        print(set_record_lists[:10])
+        #print(set_record_lists[:10])
         # print (selected_population[:10])
         return selected_population, record_values_dict, set_record_lists[0]
 
@@ -295,10 +308,10 @@ class SimpleGeneticAlgorithm():
             population, record_values_dict, best_result = self.Elimination(population, record_values_dict)
             time_end = time.time()
             if time_end - time_start >= 5 * 60:
-                print('time cost', time_end - time_start, 's')
-                print('time is up!')
+                #print('time cost', time_end - time_start, 's')
+                #print('time is up!')
                 print(best_result)
-                exit()
+                return best_result
 
 
 if __name__ == "__main__":
@@ -312,6 +325,7 @@ if __name__ == "__main__":
     # [ 5, 2, 5, 3, 2, 0, 4, 7],
     # [ 6, 7, 1, 8, 5, 4, 0, 2],
     # [ 3, 4, 5, 4, 2, 4, 10, 0]]
+    random.seed(11051421)
 
     df = pd.read_csv('tour29.csv', header=None)
     DistanceMatrix = []
