@@ -15,8 +15,8 @@ class SimpleGeneticAlgorithm():
         self.DMat = DMat
         self.seed_num = 1000
         self.offspring_num = int(1*self.seed_num)
-        self.macro_alpha = 0.5
-        self.micro_alpha = 0.2
+        self.macro_alpha = 0.7
+        self.micro_alpha = 0.16
         self.numIters = 1000
         self.tournament_times = self.seed_num
         self.tournament_num = 5
@@ -46,7 +46,7 @@ class SimpleGeneticAlgorithm():
                 value += self.DMat[individual[-1]][self.start_point]
                 # print (key_,value)
                 record_values_dict[key_] = value
-            record_lists.append([individual,1/(value**3)])
+            record_lists.append([individual,1/(value)])
         # print (record_lists)
         sum_value = sum([i[1] for i in record_lists])
         roulette_wheel_list = []
@@ -238,7 +238,7 @@ class SimpleGeneticAlgorithm():
             final_results.append(round(best_result[1],4))
             mean_results.append(mean_result)
             time_end=time.time()
-            if time_end-time_start >= 3*60:
+            if time_end-time_start >= 5*60:
                 print('time cost',time_end-time_start,'s')
                 print ('time is up!')
                 print (best_result)
@@ -255,8 +255,9 @@ class SimpleGeneticAlgorithm():
                 plt.axis('tight')
                 plt.xlabel('turns')
                 plt.ylabel('total distance')
-                plt.title('the convergence trend')
+                plt.title('the convergence trend; best result: '+str(round(best_result[1],4)))
                 plt.show()
+                print (round(best_result[1],4))
                 exit()
             
 
