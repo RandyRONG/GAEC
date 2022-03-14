@@ -273,13 +273,19 @@ if __name__ == "__main__":
     # [ 6, 7, 1, 8, 5, 4, 0, 2],
     # [ 3, 4, 5, 4, 2, 4, 10, 0]]
     
-    df = pd.read_csv('tour29.csv',header=None)
+    df = pd.read_csv('tour250.csv',header=None)
+     # df = pd.read_csv(filename,header=None)
     DistanceMatrix = []
     for i in range(df.shape[0]):
         row = []
         for j in range(df.shape[1]):
-            row.append(df.iloc[i,j])
+            if df.iloc[i,j] == float("inf"):
+                row.append(1e10)
+            else:
+                row.append(df.iloc[i,j])
+            # row.append(df.iloc[i,j])
         DistanceMatrix.append(row)
+    # print (DistanceMatrix)
     # print (DistanceMatrix)
 
     # DistanceMatrix=[
